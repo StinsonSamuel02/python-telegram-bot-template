@@ -38,11 +38,12 @@ def messageHandler(update: Update, context: CallbackContext):
     if randomImageText in update.message.text:
         image = get(randomImageUri).content
 
-    context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto(image, caption='')])
     buttons = [[InlineKeyboardButton('👍🏻', callback_data='like')],
                [InlineKeyboardButton('👎🏻', callback_data='dislike')]]
-    context.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons),
-                             text='Te gusto la imagen?')
+
+    context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto(image, caption='')],
+                               reply_markup=InlineKeyboardMarkup(buttons),
+                               text='Te gusto la imagen?')
 
 
 def main():
