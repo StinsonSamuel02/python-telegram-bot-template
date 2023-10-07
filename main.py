@@ -2,7 +2,7 @@
 import logging
 
 from dotenv import load_dotenv
-from telegram import Update, InputMediaPhoto
+from telegram import Update, InputMediaPhoto, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, CallbackContext
 
 from requests import *
@@ -39,6 +39,10 @@ async def messageHandler(update: Update, context: CallbackContext):
         image = get(randomImageUri).content
 
     await context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto(image, caption='')])
+    buttons = [[InlineKeyboardButton('👍🏻', callback_data='like')],
+               [InlineKeyboardButton('👎🏻', callback_data='dislike')]]
+    await context.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons),
+                                   text='Te gusto la imagen?')
 
 
 def main():
