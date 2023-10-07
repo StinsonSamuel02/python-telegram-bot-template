@@ -32,17 +32,17 @@ def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 
-async def messageHandler(update: Update, context: CallbackContext):
+def messageHandler(update: Update, context: CallbackContext):
     if randomPeopleText in update.message.text:
         image = get(randomPeopleUri).content
     if randomImageText in update.message.text:
         image = get(randomImageUri).content
 
-    await context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto(image, caption='')])
+    context.bot.sendMediaGroup(chat_id=update.effective_chat.id, media=[InputMediaPhoto(image, caption='')])
     buttons = [[InlineKeyboardButton('👍🏻', callback_data='like')],
                [InlineKeyboardButton('👎🏻', callback_data='dislike')]]
-    await context.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons),
-                                   text='Te gusto la imagen?')
+    context.bot.send_message(chat_id=update.effective_chat.id, reply_markup=InlineKeyboardMarkup(buttons),
+                             text='Te gusto la imagen?')
 
 
 def main():
